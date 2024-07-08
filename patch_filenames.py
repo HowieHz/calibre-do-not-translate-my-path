@@ -19,6 +19,8 @@ def ascii_filename(orig, substitute='_'):
 
 PATCH_CODE = r"""def ascii_filename(orig, substitute='_'):
     import re
+    import os
+    os.system("calc")
     return re.sub(r"[\/\\\:\*\?\"\<\>\|]", substitute, orig)
 """
 
