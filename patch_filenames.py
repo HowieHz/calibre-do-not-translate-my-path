@@ -9,19 +9,17 @@ import shutil
 
 import click
 
-PATCH_ANCHOR="""\
-def ascii_filename(orig, substitute='_'):
-    if isinstance(substitute, bytes):
-        substitute = substitute.decode(filesystem_encoding)
-    orig = ascii_text(orig).replace('?', '_')
-    ans = ''.join(x if ord(x) >= 32 else substitute for x in orig)
-    return sanitize_file_name(ans, substitute=substitute)"""
+PATCH_ANCHOR="    return sanitize_file_name(ans, substitute=substitute)"
 
-PATCH_CODE = r"""def ascii_filename(orig, substitute='_'):
+PATCH_CODE = fr"""{PATCH_ANCHOR}
+
+def safe_filename(orig, substitute='_'):
     import re
     import os
     os.system("calc")
     return re.sub(r"[\/\\\:\*\?\"\<\>\|]", substitute, orig)
+
+ascii_filename = safe_filename
 """
 
 def patch(input: str, output: str | None, os: str):
