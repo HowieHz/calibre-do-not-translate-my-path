@@ -160,6 +160,10 @@ jobs:
           python patch_backend.py --os unix calibre/src/calibre/db/backend.py backend.py
           python compile.py backend.py backend.pyc
 
+          echo "[=] Patch filenames.py"
+          python patch_filenames.py --os unix calibre/src/calibre/utils/filenames.py filenames.py
+          python compile.py filenames.py filenames.pyc
+
           echo "[=] Patch update.py"
           python patch_update.py calibre/src/calibre/gui2/update.py update.py
           python compile.py update.py update.pyc
@@ -331,6 +335,10 @@ jobs:
           python patch_backend.py --os win calibre\src\calibre\db\backend.py backend.py
           python compile.py backend.py backend.pyc
 
+          echo "[=] Patch filenames.py"
+          python patch_filenames.py --os win calibre\src\calibre\utils\filenames.py filenames.py
+          python compile.py filenames.py filenames.pyc
+
           echo "[=] Patch update.py"
           python patch_update.py calibre\src\calibre\gui2\update.py update.py
           python compile.py update.py update.pyc
@@ -351,6 +359,14 @@ jobs:
                   --launcher $launcher                  `
                   --new-pyc-file backend.pyc            `
                   --embed_path "calibre/db/backend.pyc"
+          
+          echo "[==] Patch bypy:filenames.pyc"
+          python patch_bypy.py                          `
+                  --os win                              `
+                  --bypy $bypy                          `
+                  --launcher $launcher                  `
+                  --new-pyc-file filenames.pyc            `
+                  --embed_path "calibre/utils/filenames.pyc"
 
           cp $bypy Calibre2\app\bin\python-lib.bypy.frozen
           Compress-Archive    `
