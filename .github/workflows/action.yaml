@@ -34,18 +34,10 @@ jobs:
           calibre_url="https://raw.githubusercontent.com/kovidgoyal/calibre/v${{ inputs.targetVersion }}/src/calibre/db/backend.py"
           status_code=`curl -s -o /dev/null -w "%{http_code}" "${calibre_url}"`
           if [ ${status_code} = "200" ]; then
-            if [ ! $(git tag -l "v${{ inputs.targetVersion }}") ]; then
-              echo "Target version check OK"
-              echo "build=1"                   >> $GITHUB_OUTPUT
-              echo "update=0"                  >> $GITHUB_OUTPUT
-              echo "version=${{ inputs.targetVersion }}"  >> $GITHUB_OUTPUT
-            else
-              # 本仓库 Tag 已存在
-              echo "Tag exists"
-              echo "::error title=Tag exists::Perhaps a patch for v${{ inputs.targetVersion }} has been created"
-              echo "build=0"                   >> $GITHUB_OUTPUT
-              echo "update=0"                  >> $GITHUB_OUTPUT
-            fi
+            echo "Target version check OK"
+            echo "build=1"                   >> $GITHUB_OUTPUT
+            echo "update=0"                  >> $GITHUB_OUTPUT
+            echo "version=${{ inputs.targetVersion }}"  >> $GITHUB_OUTPUT
           else
             # 目标版本不存在
             echo "Target version not found"
